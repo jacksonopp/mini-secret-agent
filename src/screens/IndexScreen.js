@@ -9,6 +9,10 @@ const IndexScreen = ({ navigation }) => {
         title="Create Game"
         onPress={() => navigation.navigate("Create")}
       />
+      <Button
+        title="Go to Game"
+        onPress={() => navigation.navigate("Game")}
+      />
     </View>
   )
 }
