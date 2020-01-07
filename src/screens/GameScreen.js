@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native'
 import { useFirestore } from '../firebase/firestore'
 
-const GameScreen = () => {
-  const [game, setGame] = useState(null)
-  const { documentSnapshots: dataGame, collectionRef: dataRef } = useFirestore("games", { where: ["simpleKey", "==", "ULXRPK"] })
+const GameScreen = ({ navigation }) => {
+  const simpleKeyID = navigation.getParam("simpleKey")
+  const [game, setGame] = useState({})
+  const { documentSnapshots: dataGame, collectionRef: dataRef } = useFirestore("games", { where: ["simpleKey", "==", simpleKeyID] })
 
   useEffect(() => {
     const game = dataGame[0] ? dataGame[0].data() : {} // this gets a single game
-    console.log(game)
     setGame(game)
   }, [dataGame, dataRef])
 

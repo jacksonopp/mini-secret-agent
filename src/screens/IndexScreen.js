@@ -11,7 +11,7 @@ const IndexScreen = ({ navigation }) => {
       />
       <Button
         title="Go to Game"
-        onPress={() => navigation.navigate("Game")}
+        onPress={() => navigation.navigate("Game", { simpleKey: "ULXRPK" })}
       />
     </View>
   )

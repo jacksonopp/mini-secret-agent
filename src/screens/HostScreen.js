@@ -14,7 +14,7 @@ const HostScreen = ({ navigation }) => {
   useEffect(() => {
     let id = ""
     for (let i = 0; i < 6; i++) {
-      id += alphabet.charAt(random(0, 26))
+      id += alphabet.charAt(random(0, 25))
     }
     setSimpleKey(id)
   }, [])
@@ -60,10 +60,9 @@ const HostScreen = ({ navigation }) => {
       <Text>{numOfPlayers}</Text>
       <Button
         title="Submit"
-        onPress={async () => {
+        onPress={() => {
           console.log(gameName)
-          createNewGame(gameName, hostName, numOfPlayers, simpleKey, () => navigation.navigate("Game"))
-
+          createNewGame(gameName, hostName, numOfPlayers, simpleKey, () => navigation.navigate("Game", { simpleKey }))
         }}
       />
       <Text>Your game code is {simpleKey}</Text>
