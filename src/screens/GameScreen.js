@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { useFirestore } from '../firebase/firestore'
-import { getGame } from '../functions/getGame'
+import { useGetGame } from '../hooks/useGetGame'
 import { random } from 'lodash'
 
 
@@ -11,10 +11,7 @@ const GameScreen = ({ navigation }) => {
   const { documentSnapshots: dataGame, collectionRef: dataRef } = useFirestore("games", { where: ["simpleKey", "==", "MBRMRW"] })
   console.log(game)
 
-  useEffect(() => {
-    setGame(getGame(dataGame))
-    console.log(game)
-  }, [dataGame, dataRef])
+  useGetGame(dataGame, setGame)
 
   return (
     <View>
