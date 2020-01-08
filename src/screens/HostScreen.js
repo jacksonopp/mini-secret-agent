@@ -30,6 +30,7 @@ const HostScreen = ({ navigation }) => {
       players: [
         {
           name: "Jackson",
+          secretKey: "jackson",
           goals: [
             {
               goalName: "goal 1",
@@ -55,6 +56,7 @@ const HostScreen = ({ navigation }) => {
         },
         {
           name: "Brian",
+          secretKey: "brian",
           goals: [
             {
               goalName: "goal 1",
