@@ -19,6 +19,74 @@ const HostScreen = ({ navigation }) => {
     setSimpleKey(id)
   }, [])
 
+  async function createDefaultGame(simpleKey, cb) {
+    console.log("pre-data")
+    const data = {
+      gameName: "test game",
+      hostName: "test host name",
+      numOfPlayers: 3,
+      simpleKey,
+      masterGoal: "master goal",
+      players: [
+        {
+          name: "Jackson",
+          goals: [
+            {
+              goalName: "goal 1",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 2",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 3",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 4",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 5",
+              isCompleted: false
+            }
+          ]
+        },
+        {
+          name: "Brian",
+          goals: [
+            {
+              goalName: "goal 1",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 2",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 3",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 4",
+              isCompleted: false
+            },
+            {
+              goalName: "goal 5",
+              isCompleted: false
+            }
+          ]
+        },
+      ]
+    }
+    console.log("post-data pre add()")
+    await dataAction.add(data)
+    console.log("post-add(), pre-callback")
+    cb()
+    console.log("post-callback")
+  }
+
   async function createNewGame(gameName, hostName, numOfPlayers, simpleKey, cb) {
     const data = { gameName, hostName, numOfPlayers, simpleKey }
     await dataAction.add(data)
@@ -62,7 +130,8 @@ const HostScreen = ({ navigation }) => {
         title="Submit"
         onPress={() => {
           console.log(gameName)
-          createNewGame(gameName, hostName, numOfPlayers, simpleKey, () => navigation.navigate("Game", { simpleKey }))
+          createDefaultGame(simpleKey, () => navigation.navigate("Game", { simpleKey }))
+          // createNewGame(gameName, hostName, numOfPlayers, simpleKey, () => navigation.navigate("Game", { simpleKey }))
         }}
       />
       <Text>Your game code is {simpleKey}</Text>
