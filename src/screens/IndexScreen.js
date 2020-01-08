@@ -10,8 +10,12 @@ const IndexScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Create")}
       />
       <Button
-        title="Go to Game"
-        onPress={() => navigation.navigate("Game", { simpleKey: "ULXRPK" })}
+        title="Join a Game"
+        onPress={() => navigation.navigate("Join")}
+      />
+      <Button
+        title="Go to Game (development only)"
+        onPress={() => navigation.navigate("Game", { simpleKey: "AAAAAA" })}
       />
     </View>
   )

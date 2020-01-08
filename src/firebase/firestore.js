@@ -33,6 +33,7 @@ export function useFirestore(collection, isRealTime = true, newOpts = {}) {
   const [opts, setOpts] = useState(newOpts);
   // We are controlling equality!
   useEffect(() => {
+    // console.log("newopts from hook:", newOpts)
     if (!isEqual(newOpts, opts)) {
       setOpts(newOpts);
     }
