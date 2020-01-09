@@ -10,7 +10,7 @@ const JoinScreen = ({ navigation }) => {
 
 
   const { documentSnapshots: dataGame, collectionRef: dataRef } = useFirestore("games", { where: ["simpleKey", "==", gameKey] })
-  console.log(game)
+  // console.log(game)
 
   useGetGame(dataGame, setGame)
 
@@ -32,7 +32,7 @@ const JoinScreen = ({ navigation }) => {
         onPress={() => {
           console.log("click")
           game.message !== "invalid key" ?
-            navigation.navigate("Name", { simpleKey: gameKey })
+            navigation.navigate("Name", { simpleKey: gameKey, game, dataGame })
             : setError("Please enter a valid key")
         }}
       />
