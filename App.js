@@ -8,6 +8,7 @@ import HostScreen from './src/screens/HostScreen';
 import JoinScreen from './src/screens/JoinScreen';
 import GameScreen from './src/screens/GameScreen';
 import NameScreen from './src/screens/NameScreen';
+import SeedScreen from './src/screens/SeedScreen';
 
 
 const navigator = createStackNavigator({
@@ -16,7 +17,8 @@ const navigator = createStackNavigator({
   Host: HostScreen,
   Join: JoinScreen,
   Game: GameScreen,
-  Name: NameScreen
+  Name: NameScreen,
+  Seed: SeedScreen
 }, {
   initialRouteName: 'Index',
   defaultNavigationOptions: {

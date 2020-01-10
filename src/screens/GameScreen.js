@@ -6,9 +6,10 @@ import { random } from 'lodash'
 
 
 const GameScreen = ({ navigation }) => {
-  // const simpleKeyID = navigation.getParam("simpleKey")
+  const simpleKey = navigation.getParam("simpleKey")
+  const playerName = navigation.getParam("name")
   const [game, setGame] = useState({})
-  const { documentSnapshots: dataGame, collectionRef: dataRef } = useFirestore("games", { where: ["simpleKey", "==", "MBRMRW"] })
+  const { documentSnapshots: dataGame, collectionRef: dataRef } = useFirestore("games", { where: ["simpleKey", "==", simpleKey] })
   console.log(game)
 
   useGetGame(dataGame, setGame)
@@ -17,6 +18,8 @@ const GameScreen = ({ navigation }) => {
     <View>
       <Text>GameScreen</Text>
       <Text>Simple Key - {game.simpleKey}</Text>
+      <Text>Player Name - {playerName}</Text>
+      <Text>Master Goal - {game.masterGoal}</Text>
     </View>
   )
 }

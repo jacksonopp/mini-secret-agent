@@ -4,7 +4,7 @@ import { useFirestore } from '../firebase/firestore'
 import { useGetGame } from '../hooks/useGetGame'
 
 const JoinScreen = ({ navigation }) => {
-  const [gameKey, setGameKey] = useState("")
+  const [gameKey, setGameKey] = useState("RZSVRL")
   const [game, setGame] = useState({})
   const [error, setError] = useState("")
 

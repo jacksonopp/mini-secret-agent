@@ -17,6 +17,10 @@ const IndexScreen = ({ navigation }) => {
         title="Go to Name Screen (development only)"
         onPress={() => navigation.navigate("Name", { simpleKey: "RZSVRL" })}
       />
+      <Button
+        title="Go to Seed Screen (development only)"
+        onPress={() => navigation.navigate("Seed")}
+      />
     </View>
   )
 }
