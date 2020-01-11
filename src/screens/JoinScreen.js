@@ -32,7 +32,7 @@ const JoinScreen = ({ navigation }) => {
         onPress={() => {
           console.log("click")
           game.message !== "invalid key" ?
-            navigation.navigate("Name", { simpleKey: gameKey, game, dataGame })
+            navigation.navigate("Name", { simpleKey: gameKey })
             : setError("Please enter a valid key")
         }}
       />

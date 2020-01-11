@@ -8,11 +8,12 @@ import { each } from 'async'
 
 const NameScreen = ({ navigation }) => {
   const simpleKey = navigation.getParam("simpleKey")
-  const dataGame = navigation.getParam("dataGame")
   const [name, setName] = useState("")
   const [passkey, setPasskey] = useState("")
   const [game, setGame] = useState({})
   const [prompts, setPrompts] = useState([])
+
+  const { documentSnapshots: dataGame, collectionRef: gameRef } = useFirestore("games", { where: ["simpleKey", "==", simpleKey] })
 
 
   useGetGame(dataGame, setGame)
@@ -49,15 +50,18 @@ const NameScreen = ({ navigation }) => {
     let dbPrompts = []
     each(ids,
       async id => {
-        const dbPrompt = await promptRef.doc(`${id}`).get()
-        dbPrompts.push({ goalName: await dbPrompt.get("prompt"), isCompleted: false })
-        // console.log(dbPrompts, dbPrompts.length)
-        if (dbPrompts.length === 5) {
-          setPrompts(dbPrompts)
-          console.log(prompts)
+        try {
+          const dbPrompt = await promptRef.doc(`${id}`).get()
+          dbPrompts.push({ goalName: await dbPrompt.get("prompt"), isCompleted: false })
+          // console.log(dbPrompts, dbPrompts.length)
+          if (dbPrompts.length === 5) {
+            setPrompts(dbPrompts)
+            console.log(prompts)
+          }
+        } catch (error) {
+          console.log(error)
         }
-      },
-      err => { if (err) console.log(err) })
+      })
   }
 
   useEffect(() => {
@@ -84,8 +88,8 @@ const NameScreen = ({ navigation }) => {
         returnKeyType="done"
       />
       <Text>{passkey}</Text>
-      {prompts.length === 5 && <Button
-        title="Submit"
+      {prompts.length === 5 ? <Button
+        title="Join Game"
         onPress={() => {
           console.log("pre handleSubmit()")
           handleSubmit(
@@ -94,7 +98,9 @@ const NameScreen = ({ navigation }) => {
             () => navigation.navigate("Game", { simpleKey, name, masterGoal: game.masterGoal }))
         }
         }
-      />}
+      />
+        : <Button title="Fetching game..." />
+      }
       {/* <Button
         title="get prompts (development only)"
         onPress={() => getPrompts()}

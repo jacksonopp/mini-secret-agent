@@ -42,19 +42,22 @@ export function useModel() {
     getMaster()
   }, [dataPrompt])
 
-
   // send game to db
   const { collectionRef: gamesRef } = useFirestore("games")
-  function postGame(gameName, hostName, numOfPlayers) {
-    const data = {
-      gameName,
-      hostName,
-      numOfPlayers,
-      masterPrompt,
-      simpleKey
+  async function postGame(gameName, numOfPlayers, cb) {
+    try {
+      const data = {
+        gameName,
+        numOfPlayers,
+        masterPrompt,
+        simpleKey
+      }
+      await gamesRef.add(data)
+      cb()
     }
-    gamesRef.add(data)
-    return data
+    catch (error) {
+      console.log(error)
+    }
   }
   return { simpleKey, postGame }
 }

@@ -8,9 +8,10 @@ const HostScreen = ({ navigation }) => {
   const [gameName, setGameName] = useState("");
   const [hostName, setHostName] = useState("");
   const [numOfPlayers, setNumOfPlayers] = useState(0);
-  const { collectionRef: dataAction } = useFirestore('games')
+  const [dataGame, setDataGame] = useState({});
 
   const { simpleKey, postGame } = useModel()
+  const { collectionRef: dataAction } = useFirestore('games', { where: ["simpleKey", "==", simpleKey] })
 
   return (
     <View style={styles.viewStyle}>
@@ -48,10 +49,7 @@ const HostScreen = ({ navigation }) => {
       <Button
         title="Submit"
         onPress={() => {
-          // console.log(gameName)
-          // createDefaultGame(simpleKey, () => navigation.navigate("Game", { simpleKey }))
-          // createNewGame(gameName, hostName, numOfPlayers, simpleKey, () => navigation.navigate("Game", { simpleKey }))
-          console.log(postGame(gameName, hostName, numOfPlayers))
+          postGame(gameName, numOfPlayers, navigation.navigate("Name", { simpleKey }))
         }}
       />
       <Text>Your simple key is {simpleKey}</Text>
