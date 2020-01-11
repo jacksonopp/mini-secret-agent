@@ -2,98 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 import { useFirestore } from '../firebase/firestore';
 import { random } from 'lodash'
+import { useModel } from '../hooks/useModel'
 
 const HostScreen = ({ navigation }) => {
   const [gameName, setGameName] = useState("");
   const [hostName, setHostName] = useState("");
   const [numOfPlayers, setNumOfPlayers] = useState(0);
-  const [simpleKey, setSimpleKey] = useState("");
   const { collectionRef: dataAction } = useFirestore('games')
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-  useEffect(() => {
-    let id = ""
-    for (let i = 0; i < 6; i++) {
-      id += alphabet.charAt(random(0, 25))
-    }
-    setSimpleKey(id)
-  }, [])
-
-  async function createDefaultGame(simpleKey, cb) {
-    console.log("pre-data")
-    const data = {
-      gameName: "test game",
-      hostName: "test host name",
-      numOfPlayers: 3,
-      simpleKey,
-      masterGoal: "master goal",
-      players: [
-        {
-          name: "Jackson",
-          secretKey: "jackson",
-          goals: [
-            {
-              goalName: "goal 1",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 2",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 3",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 4",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 5",
-              isCompleted: false
-            }
-          ]
-        },
-        {
-          name: "Brian",
-          secretKey: "brian",
-          goals: [
-            {
-              goalName: "goal 1",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 2",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 3",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 4",
-              isCompleted: false
-            },
-            {
-              goalName: "goal 5",
-              isCompleted: false
-            }
-          ]
-        },
-      ]
-    }
-    console.log("post-data pre add()")
-    await dataAction.add(data)
-    console.log("post-add(), pre-callback")
-    cb()
-    console.log("post-callback")
-  }
-
-  async function createNewGame(gameName, hostName, numOfPlayers, simpleKey, cb) {
-    const data = { gameName, hostName, numOfPlayers, simpleKey }
-    await dataAction.add(data)
-    cb()
-  }
+  const { simpleKey, postGame } = useModel()
 
   return (
     <View style={styles.viewStyle}>
@@ -131,12 +48,13 @@ const HostScreen = ({ navigation }) => {
       <Button
         title="Submit"
         onPress={() => {
-          console.log(gameName)
-          createDefaultGame(simpleKey, () => navigation.navigate("Game", { simpleKey }))
+          // console.log(gameName)
+          // createDefaultGame(simpleKey, () => navigation.navigate("Game", { simpleKey }))
           // createNewGame(gameName, hostName, numOfPlayers, simpleKey, () => navigation.navigate("Game", { simpleKey }))
+          console.log(postGame(gameName, hostName, numOfPlayers))
         }}
       />
-      <Text>Your game code is {simpleKey}</Text>
+      <Text>Your simple key is {simpleKey}</Text>
     </View>
   )
 }

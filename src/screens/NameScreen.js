@@ -44,7 +44,6 @@ const NameScreen = ({ navigation }) => {
       } else {
         i--
       }
-
     }
 
     let dbPrompts = []

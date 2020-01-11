@@ -7,10 +7,14 @@ const IndexScreen = ({ navigation }) => {
       <Text>IndexScreen</Text>
       <Button
         title="Create Game"
-        onPress={() => navigation.navigate("Create")}
+        onPress={() => navigation.navigate("Host")}
       />
       <Button
-        title="Join a Game"
+        title="Join a New Game"
+        onPress={() => navigation.navigate("Join")}
+      />
+      <Button
+        title="Re-join a Game"
         onPress={() => navigation.navigate("Join")}
       />
       <Button
