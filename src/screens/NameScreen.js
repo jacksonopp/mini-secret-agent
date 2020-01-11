@@ -5,15 +5,16 @@ import { useGetGame } from '../hooks/useGetGame'
 import * as firebase from 'firebase'
 import { random } from 'lodash'
 import { each } from 'async'
+import { useGetPrompts } from '../hooks/useGetPrompts'
 
 const NameScreen = ({ navigation }) => {
   const simpleKey = navigation.getParam("simpleKey")
   const [name, setName] = useState("")
   const [passkey, setPasskey] = useState("")
   const [game, setGame] = useState({})
-  const [prompts, setPrompts] = useState([])
 
   const { documentSnapshots: dataGame, collectionRef: gameRef } = useFirestore("games", { where: ["simpleKey", "==", simpleKey] })
+  const { prompts } = useGetPrompts()
 
 
   useGetGame(dataGame, setGame)
@@ -21,52 +22,17 @@ const NameScreen = ({ navigation }) => {
   const { documentSnapshots: dataPrompt, collectionRef: promptRef } = useFirestore("prompts")
 
   async function handleSubmit(name, passkey, navigateCB) {
-    console.log("pre prompt")
     // await getPromptsCB()
-    console.log("post prompt, pre data")
     const data = { name, secretKey: passkey, goals: prompts }
     await dataGame[0].ref.update({
       players: firebase.firestore.FieldValue.arrayUnion(data)
     }).catch((err) => {
-      if (err) throw err;
+      if (err) console.log(err);
     })
-    console.log("post update, pre navigate")
     navigateCB()
-    console.log("post navigate")
   }
 
-  async function getPrompts() {
-    setPrompts([])
-    let ids = []
-    for (let i = 0; i < 5; i++) {
-      let randomNumber = random(1, 99)
-      if (!ids.includes(randomNumber)) {
-        ids.push(randomNumber)
-      } else {
-        i--
-      }
-    }
 
-    let dbPrompts = []
-    each(ids,
-      async id => {
-        try {
-          const dbPrompt = await promptRef.doc(`${id}`).get()
-          dbPrompts.push({ goalName: await dbPrompt.get("prompt"), isCompleted: false })
-          // console.log(dbPrompts, dbPrompts.length)
-          if (dbPrompts.length === 5) {
-            setPrompts(dbPrompts)
-            console.log(prompts)
-          }
-        } catch (error) {
-          console.log(error)
-        }
-      })
-  }
-
-  useEffect(() => {
-    getPrompts()
-  }, [promptRef])
 
   return (
     <View>
@@ -101,17 +67,13 @@ const NameScreen = ({ navigation }) => {
       />
         : <Button title="Fetching game..." />
       }
-      {/* <Button
-        title="get prompts (development only)"
-        onPress={() => getPrompts()}
-      /> */}
-      <FlatList
+      {/* <FlatList
         data={prompts}
         keyExtractor={(prompt) => prompt.goalName}
         renderItem={({ item }) => (
           <Text>{item.goalName}</Text>
         )}
-      />
+      /> */}
     </View>
   )
 }
