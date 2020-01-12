@@ -58,10 +58,11 @@ const NameScreen = ({ navigation }) => {
         title="Join Game"
         onPress={() => {
           console.log("pre handleSubmit()")
+          const data = { name, passkey, masterGoal: game.masterGoal, simpleKey }
           handleSubmit(
             name,
             passkey,
-            () => navigation.navigate("Game", { simpleKey, name, masterGoal: game.masterGoal }))
+            () => navigation.navigate("Game", { simpleKey, name, masterGoal: game.masterGoal, passkey, data }))
         }
         }
       />
